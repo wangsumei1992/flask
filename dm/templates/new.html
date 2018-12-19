@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+{% block body %}
+<div class="row">
+    <div class="col-md-8 col-md-offset-2">
+        <h3 class="text-center">创建缺陷</h3>
+        <form action="/create_defect" method="post">
+            <div class="form-group">
+                <label for="title">标题</label>
+                <input type="text" name="title" id="title" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="author">创建人</label>
+                <input type="text" name="author" id="author" class="form-control">
+            </div>
+            <div class="form-group">
+                <label for="content">缺陷内容</label>
+                <textarea name="text" rows="12" id="context" class="form-control"></textarea>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="创建缺陷" class="btn btn-primary">
+            </div>
+        </form>
+    </div>
+
+</div>
+{% endblock %}

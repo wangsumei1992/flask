@@ -39,3 +39,7 @@ def get_all_defects():
     cur = db.execute('select * from defects order by id desc')
     defects = cur.fetchall() #拿数据
     return render_template('index.html', defects=defects)
+
+@app.route('/new')
+def display_create_defect_form():
+    return render_template('new.html')
