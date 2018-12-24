@@ -34,7 +34,7 @@ def close_db(error):
 
 
 @app.route('/')
-def get_all_defects():
+def all_defects():
     db = get_db()
     cur = db.execute('select * from defects order by id desc')
     defects = cur.fetchall() #拿数据
@@ -42,4 +42,17 @@ def get_all_defects():
 
 @app.route('/new')
 def display_create_defect_form():
-    return render_template('new.html')
+    db = get_db()
+    cur = db.execute('select id, title from tags order by id desc')
+    tags = cur.fetchall()
+    return render_template('new.html', tags=tags)
+
+@app.route('/create_defect', methods=['POST'])
+def create_defect():
+    db = get_db()
+    db.execute('insert into defects values (null, ?, ?, ?, ?)',
+               [request.form['title'], request.form['content'], request.form['author'], request.form['tag_id']])
+    db.commit()
+    return redirect(url_for('all_defects'))
+
+
