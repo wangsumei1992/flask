@@ -48,10 +48,11 @@ def display_create_defect_form():
     return render_template('new.html', tags=tags)
 
 @app.route('/create_defect', methods=['POST'])
-def create_defect():
+def create():
     db = get_db()
-    db.execute('insert into defects values (null, ?, ?, ?, ?)',
-               [request.form['title'], request.form['content'], request.form['author'], request.form['tag_id']])
+    cur = db.execute('insert into defects values (null,?,?,?,?)',
+                     [request.form['title'], request.form['content'], request.form['author'], request.form['tag_id']])
+    print(request.form['tag_id'])
     db.commit()
     return redirect(url_for('all_defects'))
 
