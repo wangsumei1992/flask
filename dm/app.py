@@ -26,7 +26,7 @@ def get_db():
         g.sqlite_db = connect_db()
     return g.sqlite_db
 
-@app.teardown_appcontext #当应用退出的时候
+@app.teardown_appcontext
 def close_db(error):
     """Closes the database again at the end of the request."""
     if hasattr(g, 'sqlite_db'):
@@ -41,11 +41,18 @@ def all_defects():
     return render_template('index.html', defects=defects)
 
 @app.route('/new')
-def display_create_defect_form():
+def new():
     db = get_db()
     cur = db.execute('select id, title from tags order by id desc')
     tags = cur.fetchall()
     return render_template('new.html', tags=tags)
+
+@app.route('/edit/<int:defect_id>')
+def edit(defect_id):
+    db = get_db()
+    cur = db.execute('select * from defects where defect_id = ?', [defect_id])
+    tags = cur.fetchone()
+    return render_template('edit.html', defects=defects)
 
 @app.route('/create_defect', methods=['POST'])
 def create():
@@ -54,6 +61,7 @@ def create():
                      [request.form['title'], request.form['content'], request.form['author'], request.form['tag_id']])
     print(request.form['tag_id'])
     db.commit()
+    flash("创建成功") #做提示
     return redirect(url_for('all_defects'))
 
 

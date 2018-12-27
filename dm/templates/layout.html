@@ -11,11 +11,17 @@
       .create-form{
         margin: lem auto;
       }
+      .new-defect-btn{
+        margin-left: 30px;
+      }
     </style>
   </head>
   <body>
     <div class="container">
-        {% block body %}{% endblock %}
+      {% for message in get_flashed_messages() %}
+         <div class="alert alert-success">{{ message }}</div>
+      {% endfor %}
+      {% block body %}{% endblock %}
     </div>
 
     <!-- Optional JavaScript -->
