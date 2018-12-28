@@ -50,18 +50,43 @@ def new():
 @app.route('/edit/<int:defect_id>')
 def edit(defect_id):
     db = get_db()
-    cur = db.execute('select * from defects where defect_id = ?', [defect_id])
-    tags = cur.fetchone()
-    return render_template('edit.html', defects=defects)
+    cur = db.execute('select * from defects where id = ?', [defect_id])
+    defect = cur.fetchone()
+    if defect is None:
+        return redirect(url_for('all_defects'))
+    cur = db.execute('select id, title from tags order by id desc')
+    tags = cur.fetchall()
+    return render_template('edit.html', defect=defect, tags=tags)
 
 @app.route('/create_defect', methods=['POST'])
 def create():
     db = get_db()
     cur = db.execute('insert into defects values (null,?,?,?,?)',
                      [request.form['title'], request.form['content'], request.form['author'], request.form['tag_id']])
-    print(request.form['tag_id'])
+    #print(request.form['tag_id'])
     db.commit()
     flash("创建成功") #做提示
     return redirect(url_for('all_defects'))
 
+@app.route('/update_defect/<int:defect_id>', methods=['POST'])
+def update(defect_id):
+    db = get_db()
+    cur = db.execute('update defects set title = ?, content = ?, author = ?, tag_id = ? where id = ?',
+                     [request.form['title'], request.form['content'], request.form['author'], request.form['tag_id'],
+                     defect_id])
+    db.commit()
+    flash("编辑成功") #做提示
+    return redirect(url_for('all_defects'))
 
+@app.route('/delete/<int:defect_id>')
+def delete(defect_id):
+    db = get_db()
+    cur = db.execute('select * from defects where id = ?', [defect_id])
+    defect = cur.fetchone()
+    if defect is None:
+        return redirect(url_for('all_defects'))
+
+    cur = db.execute('delete from defects where id = ?', [defect_id])
+    db.commit()
+    flash("删除成功")
+    return redirect(url_for('all_defects'))

@@ -9,6 +9,7 @@
           <th>内容</th>
           <th>提出人</th>
           <th>编辑</th>
+          <th>删除</th>
         </thead>
         <tbody>
           {% for defect in defects %}
@@ -16,7 +17,8 @@
               <td>{{defect.title}}</td>
               <td>{{defect.content}}</td>
               <td>{{defect.author}}</td>
-              <td>{{url_for('edit')}}</td>
+              <td><a href="{{url_for('edit', defect_id=defect.id)}}" class="btn btn-primary btn-sm">编辑</a></td>
+              <td><a href="{{url_for('delete', defect_id=defect.id)}}" onclick="return confirm('确定删除吗?')" class="btn btn-danger btn-sm">删除</a></td>
           </tr>
           {% endfor %}
         </tbody>

@@ -14,7 +14,7 @@
             </div>
             <div class="form-group">
                 <label for="tag">标签</label>
-                <select class="form-control" name="tag_id" id="tag">
+                <select class="form-control" name="tag_id">
                     {% for tag in tags %}
                     <option value="{{tag.id}}">{{tag.title}}</option>
                     {% endfor %}
@@ -22,7 +22,7 @@
             </div>
             <div class="form-group">
                 <label for="content">缺陷内容</label>
-                <textarea name="text" rows="12" id="context" class="form-control" required></textarea>
+                <textarea name="content" rows="12" id="content" class="form-control" required></textarea>
             </div>
             <div class="form-group">
                 <input type="submit" value="创建缺陷" class="btn btn-primary">
