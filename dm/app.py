@@ -36,7 +36,7 @@ def close_db(error):
 @app.route('/')
 def all_defects():
     db = get_db()
-    cur = db.execute('select * from defects order by id desc')
+    cur = db.execute('select defects.*, tags.title as tag_name, tags.type as tag_type from defects join tags on defects.tag_id = tags.id order by id desc')
     defects = cur.fetchall() #拿数据
     return render_template('index.html', defects=defects)
 
