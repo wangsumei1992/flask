@@ -16,7 +16,7 @@
           {% for defect in defects %}
           <tr>
               <td><span class="badge badge-{{defect.tag_type}}">{{defect.tag_name}}</span></td>
-              <td>{{defect.title}}</td>
+              <td><a href="{{url_for('show', defect_id=defect.id)}}">{{defect.title}}</a></td>
               <td>{{defect.content}}</td>
               <td>{{defect.author}}</td>
               <td><a href="{{url_for('edit', defect_id=defect.id)}}" class="btn btn-primary btn-sm">编辑</a></td>

@@ -90,3 +90,15 @@ def delete(defect_id):
     db.commit()
     flash("删除成功")
     return redirect(url_for('all_defects'))
+
+@app.route('/show/<int:defect_id>')
+def show(defect_id):
+    db = get_db()
+    cur = db.execute('select defects.*, tags.title as tag_name, tags.type as tag_type from defects join tags on defects.tag_id = tags.id where defects.id = ?', [defect_id])
+    defect = cur.fetchone()
+    if defect is None:
+        flash("该缺陷不存在")
+        return redirect(url_for('all_defects'))
+
+    return render_template('show.html', defect=defect)
+
