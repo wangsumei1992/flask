@@ -4,10 +4,12 @@
     <p>提出人:{{defect.author}}</p>
     <p><span class="badge badge-{{defect.tag_type}}">{{defect.tag_name}}</span></p>
     <div class="defect-detail" id="defect-detail">
+        {{"%n%".join(defect.content.split("\n"))}}
     </div>
     <script type="text/javascript">
+        var text = document.getElementById('defect-detail').innerText.split("%n%").join("\n");
         document.getElementById('defect-detail').innerHTML =
-          marked('{{defect.content}}', {sanitize: true});
+          marked(text, {sanitize: true});
     </script>
 {% endblock %}
 

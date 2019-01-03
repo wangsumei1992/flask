@@ -102,3 +102,5 @@ def show(defect_id):
 
     return render_template('show.html', defect=defect)
 
+if __name__ =='__main__':
+    app.run(host='0.0.0.0', port=5000, debug='True')
